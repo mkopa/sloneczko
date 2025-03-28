@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dla Mojej Miłości Gosi</title>
+    <style>
+        body {
+            margin: 0;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="sunCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("sunCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let angle = 0;
+        function drawSun() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+
+            // Promienie słońca
+            for (let i = 0; i < 12; i++) {
+                const rayAngle = (i * Math.PI) / 6 + angle;
+                const rayStartX = centerX + Math.cos(rayAngle) * (radius + 10);
+                const rayStartY = centerY + Math.sin(rayAngle) * (radius + 10);
+                const rayEndX = centerX + Math.cos(rayAngle) * (radius + 30);
+                const rayEndY = centerY + Math.sin(rayAngle) * (radius + 30);
+                
+                ctx.strokeStyle = "gold";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(rayStartX, rayStartY);
+                ctx.lineTo(rayEndX, rayEndY);
+                ctx.stroke();
+            }
+
+            // Słońce
+            ctx.fillStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Imię w środku
+            ctx.fillStyle = "red";
+            ctx.font = "bold 24px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Gosia", centerX, centerY + 8);
+
+            angle += 0.02;
+            requestAnimationFrame(drawSun);
+        }
+        drawSun();
+    </script>
+</body>
+</html>
